@@ -1,0 +1,32 @@
+module List where
+
+import Daml.Script
+
+
+import DA.List
+
+
+listTest: Script()
+listTest = script do 
+    let 
+       intList = [1,2,4]
+       fruitList = ["mango", "guava", "apple"]
+       veggiList = ["carrot", "potato"]
+       fruitAndveggeList = fruitList <> veggiList
+       rangeList = [10 .. 20]
+       evenList = [2,4 .. 20]
+
+    debug $ "Head: " <> show (head intList)  
+    debug $ "Tail: " <> show (tail fruitList) 
+    debug $ "Last: " <> show (last fruitList)
+    debug $ "Sort: " <> show (sort fruitList)
+    debug $ "init: " <> show (init fruitList) -- return all emlement except last one 
+    debug $ "reverse: " <> show (reverse fruitList)
+    debug $ "take: " <> show (take 2 fruitList) -- starting from 1st
+
+    debug $ "elem: " <> show (elem "apple" fruitList)
+
+    debug $ "length: " <> show (length veggiList)
+
+    debug $ "rangeList: " <> show (length rangeList)
+    debug $ "prepand: " <> show ("mango" :: fruitList)

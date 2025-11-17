@@ -1,0 +1,25 @@
+module TypeClasses where
+
+import Daml.Script
+
+--keyword name-of-data-type    constructor 
+-- custom data type
+data PersonalRecord = PersonalRecord with
+    name: Text
+    id: Int
+       deriving (Show, Eq)
+testTypeClass: Script()
+
+testTypeClass = script do
+    let 
+      someData = PersonalRecord with
+        name = "Alice"
+        id = 123
+    debug $ someData 
+
+    let 
+       someOtherData = PersonalRecord with
+          name = "Bob"
+          id = 233
+
+    debug $ someData == someOtherData      

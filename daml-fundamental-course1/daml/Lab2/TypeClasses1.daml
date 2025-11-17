@@ -1,0 +1,35 @@
+module TypeClasses1 where
+
+import Daml.Script
+import DA.Text (sha256)
+
+class Encryptable i o where
+   encrypt: i -> o
+
+data PersonalRecord = PersonalRecord with
+    name: Text
+    id: Int
+      deriving (Show, Eq)
+
+-- make data type PersonRecord an instance of Encryptable typeClass  where Text is return 
+-- type of function encrypt
+-- in below function Data Record making its data encrypt
+instance Encryptable PersonalRecord Text where
+    encrypt myRecord = sha256 (myRecord.name <> show(myRecord.id))
+
+
+testEncryption: Script() 
+
+testEncryption = script do
+    let
+      someData = PersonalRecord with
+        name= "Alice"
+        id = 123
+
+      encryptData: Text = encrypt someData
+
+    debug encryptData     
+
+
+
+

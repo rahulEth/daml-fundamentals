@@ -1,0 +1,15 @@
+module ControlFlow3 where
+
+import Daml.Script
+
+-- case statement work same as if statemnt
+caseOddEven: Int -> Text
+caseOddEven x = case (x%2) of
+    0 -> "even"
+    1 -> "odd"
+    _ -> "unknown"
+
+testOddEven: Script()
+
+testOddEven = script do 
+     debug $ caseOddEven 9

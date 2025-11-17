@@ -1,0 +1,16 @@
+module ControlFlow4 where
+
+import Daml.Script
+
+-- Either statement work same as if statemnt
+someFunction: Int -> Either Text Int
+someFunction x = 
+    if(x < 0) then
+         Left "Error"  -- use left constrictor
+    else Right (x+20)  -- use rgith consturctor in Either statemtn
+
+testSomeFunction: Script()
+testSomeFunction = script do 
+     debug $ someFunction (-2)
+     debug $ someFunction 2
+     

@@ -1,0 +1,48 @@
+module BankService where
+
+template BankAccount
+  with
+    bank : Party
+    accountOwner: Party
+    balance: Numeric 2
+  where
+    signatory bank, accountOwner
+
+    key (bank, accountOwner): (Party, Party)
+    maintainer key._1
+
+    choice Deposit: ContractId BankAccount
+       with amount: Numeric 2
+       controller bank
+       do
+          create this with
+              balance = balance + amount
+
+template BankService
+    with
+      bank: Party
+    where 
+      signatory bank
+      nonconsuming choice FindAccountById: BankAccount
+          with id: ContractId BankAccount
+          controller bank
+          do 
+            fetch @BankAccount id
+
+      nonconsuming choice FindAccountByKey: BankAccount
+          with key: (Party, Party)
+          controller bank
+          do
+          -- here accout is an tuple that contain contractId and payload
+          account <- fetchByKey @BankAccount key
+          return account._2
+
+
+            
+
+
+
+               
+                
+             
+    

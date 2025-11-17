@@ -1,0 +1,10 @@
+Lab 1
+
+Collection Data structure:
+
+
+Tuples: can contain element of different data type 
+
+Set: Set can only have unique elements
+
+
