@@ -55,6 +55,23 @@ an applicative type that sequentilly composes actions, passing any value produce
           (>>=) : m a -> (a -> m b) -> m b
 
 # Actions and Loops
+  
+Action typeclass is an applicative type that sequentally composes actions, passing the value returned by by the first action as an argument to the text.
+It's function is represented by the bind operator >>=
+the bind operator "pipes" the result of one action into the next
+
+mapA  
+    Applicative m => (a -> mb) -> [a] -> m[b]
+
+apply a function (a -> mb) to each element of [a] and return m[b]
+
+
+
+NOTE: A do-block is equivalent to the Action's binding operator >>=
+NOTE: when performing actions in a loop, use mapA or forA
+NOTE: if a return value is not needed, use mapA_ or forA_
+
+
 
 
 

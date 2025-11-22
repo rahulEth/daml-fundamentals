@@ -1,0 +1,138 @@
+module TestAction where
+
+import BankService
+import Daml.Script
+import DA.Foldable (mapA_, forA_)
+
+testMapA_: Script ()
+
+testMapA_ = script do
+   alice <- allocateParty "Alice"
+   bob <- allocateParty "Bob"
+
+   bank <- allocateParty "Bank"
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 100.0
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 50.0
+
+   submitMulti [bob, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = bob
+         balance = 70.0      
+           
+   accounts <- query @BankAccount bank
+   -- whatever last statement evaluate becomes the return value if there is no 
+   -- explicit return statement
+   mapA_ (\x -> debug x) accounts
+
+-- test mapA
+
+testMapA: Script [()]
+testMapA = script do
+   alice <- allocateParty "Alice"
+   bob <- allocateParty "Bob"
+
+   bank <- allocateParty "Bank"
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 100.0
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 50.0
+
+   submitMulti [bob, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = bob
+         balance = 70.0      
+           
+   accounts <- query @BankAccount bank
+   -- whatever last statement evaluate becomes the return value if there is no 
+   -- explicit return statement
+        --- function     list
+   mapA (\x -> debug x) accounts
+
+-- testing forA
+
+testForA: Script [()]
+testForA = script do
+   alice <- allocateParty "Alice"
+   bob <- allocateParty "Bob"
+
+   bank <- allocateParty "Bank"
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 100.0
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 50.0
+
+   submitMulti [bob, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = bob
+         balance = 70.0      
+           
+   accounts <- query @BankAccount bank
+   -- whatever last statement evaluate becomes the return value if there is no 
+   -- explicit return statement
+   
+   forA accounts (\x -> debug x)   
+
+
+-- testing forA_
+
+testForA_: Script ()
+testForA_ = script do
+   alice <- allocateParty "Alice"
+   bob <- allocateParty "Bob"
+
+   bank <- allocateParty "Bank"
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 100.0
+
+   submitMulti [alice, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = alice
+         balance = 50.0
+
+   submitMulti [bob, bank] [] do
+      createCmd BankAccount with
+         bank
+         accountOwner = bob
+         balance = 70.0      
+           
+   accounts <- query @BankAccount bank
+   -- whatever last statement evaluate becomes the return value if there is no 
+   -- explicit return statement
+   -- if dont want return value from forA use forA_
+   forA_ accounts (\x -> debug x)   
+
+
